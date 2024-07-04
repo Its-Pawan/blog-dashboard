@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style/style.css">
+    <title>Blog Dashboard</title>
+</head>
+
+<body>
+    <form action="/submit" method="post" enctype="multipart/form-data"  class="form">
+        Title: <input type="text" name="title" required>
+        Content: <textarea type="text" name="content" required></textarea>
+        Description: <textarea type="text" name="desc" required></textarea>
+        Image: <input type="file" name="image" required>
+        <input type="submit">
+    </form>
+    <style>
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 15px;
+        }
+    </style>
+    <br>
+    <br>
+    <br>
+    <% if(locals.data && data.length !==0){ %>
+        <table>
+            <thead>
+                <th>Item ID</th>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Description</th>
+                <th>Publish Date</th>
+                <th>Image</th>
+                <th>Action</th>
+            </thead>
+            <tbody>
+                <% data.forEach(element=> {%>
+                    <tr>
+
+                        <td>
+                            <%= element._id %>
+                        </td>
+                        <td>
+                            <%= element.title %>
+                        </td>
+                        <td>
+                            <%= element.content %>
+                        </td>
+                        <td>
+                            <%= element.description %> 
+                        </td>
+                        <td>
+                            <%= element.publishDate %> 
+                        </td>
+                        <td>
+                            <% if(element.image) {%>
+                                <img src="data:image/png;base64,<%= element.image.toString('base64') %>" alt="Image"
+                                    width="100" />
+                                <% } %>
+                        </td>
+                        <td>
+                            <a href="/delete/<%= element._id %>">Delete</a>
+                            <a href="/update/<%= element._id %>">Update</a>
+                        </td>
+                    </tr>
+                    <% }); %>
+            </tbody>
+
+        </table>
+
+        <% }else{ %>
+            <h1>No data yet</h1>
+            <% } %>
+</body>
+
+</html>
